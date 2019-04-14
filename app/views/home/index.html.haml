@@ -1,7 +1,15 @@
-= select_tag "currencies", options_for_select(@currencies), :multiple => true, :size => 2, :id => 'currencies_select'
+.container-fluid
+  %button.btn.btn-primary.primary-button.add_contact{ type: 'submit' } Add New Contact
 
-%input.daterange{:type => "text", :'data-date-format' => 'yyyy-mm-dd'}
+  #extra_buttons
+    .response
+    .form.hidden
+      = simple_form_for @contact, url: "/add_contact", id: 'add_contact', remote: true do |b|
+        = b.input :name, label: "Name"
+        = b.input :phone_number, label: "Phone Number"
 
-%button.btn.btn-primary.primary-button{ type: 'submit' } Submit
+        .buttons
+          = submit_tag 'Save'
 
-#chart
+  #search_results
+  #keypad

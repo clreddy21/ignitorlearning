@@ -1,0 +1,14 @@
+.container
+  %table#google_results
+    %thead
+      %tr.col-xl-12
+        %th.col-xl-8 Title
+        %th.col-xl-4 Link
+    %tbody
+      - @res.each do |headline|
+        - headline.each do |key, value|
+          %tr.col-xl-12
+            %td.col-xl-8
+              = key
+            %td.col-xl-4
+              = link_to 'Link', value, target: :_blank

@@ -14,9 +14,9 @@
    var target={
          init:function(){
            map_text={
-             "1":". , !","2":"a b c","3":"d e f",
-             "4":"g h i","5":"j k l","6":"m n o",
-             "7":"p q r s","8":"t u v","9":"w x y z",
+             "1":". , ! 1","2":"a b c 2","3":"d e f 3",
+             "4":"g h i 4","5":"j k l 5","6":"m n o 6",
+             "7":"p q r s 7","8":"t u v 8","9":"w x y z 9",
              "10":"*","11":"0","12":"#"
            };
            map_num={
@@ -33,6 +33,8 @@
           input.style.margin="0px 0px 5px 0px";
           input.style.padding="0px";
           input.style.fontSize="15px";
+          input.className += "keypad_input";
+
           ele.append(input);
           ele.css({"width":options.width,"height":options.height,"display":"block"});
           for(var key in map_text){
@@ -47,25 +49,49 @@
             button.innerHTML=map_text[key];
             $(ele).append(button);
           }
-          for(var key in map_num){
-            var button=document.createElement("BUTTON");
-            button.style.display="inline-block";
-            button.style.height=options.height/10+"px";
-            button.style.width=options.width/10+"px";
-            button.style.margin="0 1.5px 0 1.4px";
-            var fontSize=(options.width/10)/4;
-            button.style.fontSize=fontSize+"px";
-            button.innerHTML=map_num[key];
-            $(ele).append(button);
-          }
         }
    };
   target.init();    
   target.markup();
   $(ele).find("button").mouseup(function(event){
             var button_val=$(event.currentTarget).attr("data-value");
-            $(ele).children("input").val(inputmessage($(ele).children('input').val(),button_val));
+            var existing_text = $(ele).children('input').val()
+
+            text = inputmessage(existing_text,button_val)
+
+
+            console.log(text)
+            $(ele).children("input").val(text);
+
+            if (existing_text != text)
+                 {
+                     search_contacts(text);
+                 }
+
   });
+
+  function search_contacts(text){
+      if (text.length > 0){
+          $.ajax({
+              data: {text: text},
+              type: 'post',
+              url: "/search_contacts/",
+              success: function (data, status, xhr) {
+                  $('#search_results').empty()
+                  $.each( data, function( i, l ){
+                      $('#search_results').prepend($('<div> ' + l["name"] + ' -> ' + l["phone_number"] + '</div>'));
+                  });
+                // $("#search_results").append('boom')
+
+  }})}};
+
+
+
+     $('.keypad_input').keypress(function(event) {
+         event.preventDefault();
+         return false;
+     });
+
   function inputmessage(text,button_pressed){
     if($("#time").length)
     {  
@@ -89,7 +115,6 @@
      return text+str[i];
    if(button_pressed!=0 && button_pressed<=9)
    {
-
      if(!diff||diff<1500)
      {
       if(text[text.length-1]==str[i])
@@ -97,21 +122,21 @@
        text=text.split('');
        text.pop();
        var arr=text.join('');
-       text=arr+str[i+1];  
+       text=arr+str[i+1];
      }
      else if(text[text.length-1]==str[i+1])
      {
        text=text.split('');
        text.pop();
        var arr=text.join('');
-       text=arr+str[i+2];  
+       text=arr+str[i+2];
      }
      else if(text[text.length-1]==str[i+2]&&str.length==4)
      {
        text=text.split('');
        text.pop();
        var arr=text.join('');
-       text= arr+str[i+3];  
+       text= arr+str[i+3];
      }
      else  if(text[text.length-1]==str[i+2]||text[text.length-1]==str[i+3])
      {
@@ -125,13 +150,13 @@
   }
   else
   {
-    text=text+str[i];    
+    text=text+str[i];
   }
 }
 else
   text=text+$(event.currentTarget).text();
 return text;
 }
-return target;  
+return target;
 };
 }(jQuery));

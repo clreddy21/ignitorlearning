@@ -1,0 +1,13 @@
+
+#search_results{
+    overflow: scroll !important;
+    height:100px !important;
+    border: solid black 2px;
+    width: 290px !important;
+    padding: 4px 0 4px 6px;
+}
+
+
+.hidden{
+    display: none;
+}

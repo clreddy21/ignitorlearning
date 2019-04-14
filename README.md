@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The application can be started using standard `rails s` command.
 
-Things you may want to cover:
+There are 2 pages in the application.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Contact page with searching and addition of contacts.
+    This page can be directly accessed as home page.
+    For this app we need to populate the db with contacts using `rake db:seed` command in command line.
+    
+2. Google sports news aggregator page can be accessed at `http://localhost:3000/google_sports`
